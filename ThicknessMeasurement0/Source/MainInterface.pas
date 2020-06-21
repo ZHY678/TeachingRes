@@ -27,7 +27,7 @@ uses
   UIndicatorLightInterface, System.IniFiles, VclTee.TeeGDIPlus, MtxBaseComp,
   SignalTools, VCLTee.TeEngine, VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart,
   SignalToolsTee, RzTabs, VCLTee.TeeTools, Vcl.StdCtrls, UThicknessMeasurement2D,
-  UCollectThread, UDataProcess, Winapi.OpenGL;
+  UCollectThread, UDataProcess, Winapi.OpenGL, cxImageList;
 
 type
   TThicknessMeasurement = class(TForm)
@@ -316,6 +316,8 @@ begin
 
   CalAverageIndex := 0;
   SetLength(CalAverageArray, CalAverageLength);
+
+  ShowMessage('yzg');
 
 //  InitializeCriticalSection(RTLCriticalSection);
 end;

@@ -122,7 +122,7 @@ object ThicknessMeasurement: TThicknessMeasurement
     Hint = ''
     ActivePage = DetectionTabSheet
     Align = alClient
-    TabOrder = 6
+    TabOrder = 2
     FixedDimension = 19
     object DetectionTabSheet: TRzTabSheet
       TabVisible = False
@@ -602,6 +602,10 @@ object ThicknessMeasurement: TThicknessMeasurement
       AlignWithMargins = True
       TabVisible = False
       Caption = 'CalibrationTabSheet'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object CalibrationSettingPanel: TPanel
         Left = 0
         Top = 0
@@ -1186,6 +1190,10 @@ object ThicknessMeasurement: TThicknessMeasurement
     object DebugTabSheet: TRzTabSheet
       TabVisible = False
       Caption = 'DebugTabSheet'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object DebugDisplayPanel: TPanel
         Left = 0
         Top = 0
@@ -1680,6 +1688,7 @@ object ThicknessMeasurement: TThicknessMeasurement
     end
   end
   object cxImageList: TcxImageList
+    SourceDPI = 96
     Height = 32
     Width = 32
     FormatVersion = 1
@@ -4486,7 +4495,7 @@ object ThicknessMeasurement: TThicknessMeasurement
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -12
-    Font.Name = #24494#36719#38597#40657
+    Font.Name = 'Microsoft YaHei UI'
     Font.Style = []
     Categories.Strings = (
       'Default')
@@ -4498,11 +4507,7 @@ object ThicknessMeasurement: TThicknessMeasurement
     PopupMenuLinks = <>
     UseSystemFont = True
     Left = 616
-    DockControlHeights = (
-      0
-      0
-      0
-      0)
+    PixelsPerInch = 96
     object EquipmentControlBar: TdxBar
       Caption = #35774#22791#25511#21046
       CaptionButtons = <>
