@@ -1,0 +1,90 @@
+unit UMainThread;
+
+interface
+
+uses
+  System.Classes, UGlobalpara, Winapi.Windows, UDataProcess;
+
+type
+  TMainThread = class(TThread)
+  private
+    { Private declarations }
+    FDataProcess : TDataProcess;
+  protected
+    procedure Execute; override;
+  end;
+
+implementation
+
+{ TMainThread }
+
+uses
+  MainInterface;
+
+procedure TMainThread.Execute;
+var
+  TempTemperatureData : PTTemperature;
+  TempUpperSensorXData, TempUpperSensorZData, TempLowerSensorXData, TempLowerSensorZData : P2DData;
+begin
+  { Place thread code here }
+  while not Terminated do
+  begin
+//    if (SensorTemperatureCache.count > 0) and (UpperSensorXCache.count > 0) and (UpperSensorZCache.count > 0) and (LowerSensorXCache.count > 0) and (LowerSensorZCache.count > 0) then
+//    begin
+      if (SensorTemperatureCache.count > 0) then
+      begin
+        TempTemperatureData := SensorTemperatureCache.Pop;
+        CopyMemory(@TemperatureData, TempTemperatureData, SizeOf(TTemperature));
+        Dispose(TempTemperatureData);
+      end;
+      if (UpperSensorXCache.count > 0) then
+      begin
+        TempUpperSensorXData := UpperSensorXCache.Pop;
+        CopyMemory(@UpperSensorXCache, TempUpperSensorXData, SizeOf(T2DData));
+        Dispose(TempUpperSensorXData);
+      end;
+      if (UpperSensorZCache.count > 0) then
+      begin
+        TempUpperSensorZData := UpperSensorZCache.Pop;
+        CopyMemory(@UpperSensorZCache, TempUpperSensorZData, SizeOf(T2DData));
+        Dispose(TempUpperSensorZData);
+      end;
+      if (LowerSensorXCache.count > 0) then
+      begin
+        TempLowerSensorXData := LowerSensorXCache.Pop;
+        CopyMemory(@LowerSensorXCache, TempLowerSensorZData, SizeOf(T2DData));
+        Dispose(TempLowerSensorXData);
+      end;
+      if (LowerSensorZCache.count > 0) then
+      begin
+        TempLowerSensorZData := LowerSensorZCache.Pop;
+        CopyMemory(@LowerSensorZCache, TempLowerSensorZData, SizeOf(T2DData));
+        Dispose(TempLowerSensorZData);
+      end;
+
+//      TempTemperatureData := SensorTemperatureCache.Pop;
+//      CopyMemory(@TemperatureData, TempTemperatureData, SizeOf(TTemperatureData));
+//      Dispose(TempTemperatureData);
+//
+//      TempUpperSensorXData := UpperSensorXCache.Pop;
+//      CopyMemory(@UpperSensorXCache, TempUpperSensorXData, SizeOf(T2DData));
+//      Dispose(TempUpperSensorXData);
+//
+//      TempUpperSensorZData := UpperSensorZCache.Pop;
+//      CopyMemory(@UpperSensorZCache, TempUpperSensorZData, SizeOf(T2DData));
+//      Dispose(TempUpperSensorZData);
+//
+//      TempLowerSensorXData := LowerSensorXCache.Pop;
+//      CopyMemory(@LowerSensorXCache, TempLowerSensorZData, SizeOf(T2DData));
+//      Dispose(TempLowerSensorXData);
+//
+//      TempLowerSensorZData := LowerSensorZCache.Pop;
+//      CopyMemory(@LowerSensorZCache, TempLowerSensorZData, SizeOf(T2DData));
+//      Dispose(TempLowerSensorZData);
+//
+//      FDataProcess.DataDeal(TemperatureData, UpperSensorXData, UpperSensorZData, LowerSensorXData, LowerSensorZData);
+//    end;
+  end;
+end;
+
+end.

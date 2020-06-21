@@ -1,0 +1,107 @@
+unit UCollectThread;
+
+interface
+
+uses
+  System.Classes, UThicknessMeasurement2D, UGlobalpara, USoftwareFunction, Vcl.Forms, Winapi.Windows, System.SysUtils, UDataProcess;
+
+type
+  TCollectThread = class(TThread)
+  private
+    { Private declarations }
+    FThicknessMeasurement2D : TThicknessMeasurement2D;
+    FHardWareControl : THardWareControl;
+    FGlobalpara : TGlobalpara;
+    FDataProcess : TDataProcess;
+  protected
+    procedure Execute; override;
+  public
+    constructor Create; overload;
+  end;
+
+implementation
+
+{ UCollectThread }
+
+procedure TCollectThread.Execute;
+var
+  TemperatureRecord : TTemperature;
+  TemperatureData : ^TTemperature;
+
+  TempUpperSensorPoints, TempLowerSensorPoints : TSensorPoints;
+
+  Data : ^TSensorPoints;
+
+  TempTemperatureData : ^TTemperature;
+  TempUpperSensorData, TempLowerSensorData : ^TSensorPoints;
+begin
+  { Place thread code here }
+  while not Terminated do
+  begin
+    if IsOpenSensor then
+    begin
+      FThicknessMeasurement2D.GetProfiles_Ethernet;
+
+      //不能在线程中使用串口读取函数
+//      FThicknessMeasurement2D.GetTemperature;
+//      FHardWareControl.GetTemperature;
+      TemperatureRecord.TemperatureData[0] := UpperLaserSurface / 10;
+      TemperatureRecord.TemperatureData[1] := LowerLaserSurface / 10;
+      TemperatureRecord.TemperatureData[2] := UpperCFrame / 10;
+      TemperatureRecord.TemperatureData[3] := LowerCFrame / 10;
+      TemperatureRecord.TemperatureData[4] := HighTemperature / 10;
+      TemperatureRecord.TemperatureData[5] := LowTemprature / 10;
+      TemperatureRecord.TemperatureData[6] := (UpperLaserCore - 2731) / 10;
+      TemperatureRecord.TemperatureData[7] := (LowerLaserCore - 2731) / 10;
+
+      TempUpperSensorPoints.VdValueX := UpperSensorPoints.VdValueX;
+      TempUpperSensorPoints.VdValueZ := UpperSensorPoints.VdValueZ;
+      TempLowerSensorPoints.VdValueX := LowerSensorPoints.VdValueX;
+      TempLowerSensorPoints.VdValueZ := LowerSensorPoints.VdValueZ;
+
+//      EnterCriticalSection(RTLCriticalSection);
+//
+//      New(TemperatureData);
+//      CopyMemory(TemperatureData, @TemperatureRecord, SizeOf(TTemperature));
+//      SensorTemperatureCache.Push(TemperatureData);
+//
+//      New(Data);
+//      CopyMemory(Data, @UpperSensorPoints, SizeOf(TSensorPoints));
+//      UpperSensorCache.Push(Data);
+//
+//      New(Data);
+//      CopyMemory(Data, @LowerSensorPoints, SizeOf(TSensorPoints));
+//      LowerSensorCache.Push(Data);
+//
+//      LeaveCriticalSection(RTLCriticalSection);
+//      if (SensorTemperatureCache.count > 0) and (UpperSensorCache.count > 0) and (LowerSensorCache.count > 0) then
+//      begin
+//        TempTemperatureData := SensorTemperatureCache.Pop;
+//        CopyMemory(@TemperatureData, TempTemperatureData, SizeOf(TTemperature));
+//        Dispose(TempTemperatureData);
+//
+//        TempUpperSensorData := UpperSensorCache.Pop;
+//        CopyMemory(@UpperSensorCache, TempUpperSensorData, SizeOf(TSensorPoints));
+//        Dispose(TempUpperSensorData);
+//
+//        TempLowerSensorData := LowerSensorCache.Pop;
+//        CopyMemory(@LowerSensorCache, TempLowerSensorData, SizeOf(TSensorPoints));
+//        Dispose(TempLowerSensorData);
+//      end;
+      writeln(TempFile, FormatDateTime('yyyy年mm月dd日 hh:nn:ss', Now));
+      Sleep(10);
+    end
+    else
+    begin
+      ;
+    end;
+  end;
+end;
+
+constructor TCollectThread.Create;
+begin
+  inherited;
+  Priority := tpHighest;
+end;
+
+end.

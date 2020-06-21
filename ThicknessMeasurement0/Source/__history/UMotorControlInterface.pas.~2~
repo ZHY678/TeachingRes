@@ -1,0 +1,73 @@
+unit UMotorControlInterface;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, USoftwareFunction, UGlobalpara,
+  Vcl.StdCtrls;
+
+type
+  TMotorControlForm = class(TForm)
+    PluseNumberLabel: TLabel;
+    PluseNumberEdit: TEdit;
+    InPlaceButton: TButton;
+    ResetButton: TButton;
+    FowardButton: TButton;
+    BackButton: TButton;
+    procedure InPlaceButtonClick(Sender: TObject);
+    procedure ResetButtonClick(Sender: TObject);
+    procedure FowardButtonClick(Sender: TObject);
+    procedure BackButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+    FMotorControl : TMotorControl;
+    FGlobalpara : TGlobalpara;
+  public
+    { Public declarations }
+  end;
+
+var
+  MotorControlForm: TMotorControlForm;
+
+implementation
+
+{$R *.dfm}
+
+procedure TMotorControlForm.BackButtonClick(Sender: TObject);
+begin
+  try
+    FMotorControl.DMC5480BackOff(StrToInt(PluseNumberEdit.Text));
+  except
+    On E : Exception Do
+    Begin
+      PluseNumberEdit.Clear;
+    End;
+  end;
+end;
+
+procedure TMotorControlForm.FowardButtonClick(Sender: TObject);
+var
+  Temp : Integer;
+begin
+  try
+    FMotorControl.DMC5480Forward(StrToInt(PluseNumberEdit.Text));
+  except
+    On E : Exception Do
+    Begin
+      PluseNumberEdit.Clear;
+    End;
+  end;
+end;
+
+procedure TMotorControlForm.InPlaceButtonClick(Sender: TObject);
+begin
+  FMotorControl.DMC5480InPlace;
+end;
+
+procedure TMotorControlForm.ResetButtonClick(Sender: TObject);
+begin
+  FMotorControl.DMC5480Zeroing;
+end;
+
+end.
